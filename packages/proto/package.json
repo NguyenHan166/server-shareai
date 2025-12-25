@@ -4,5 +4,8 @@
     "private": true,
     "files": [
         "**/*.proto"
-    ]
+    ],
+    "devDependencies": {
+        "@nestjs/testing": "^11.1.10"
+    }
 }

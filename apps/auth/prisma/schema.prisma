@@ -6,9 +6,31 @@
 
 generator client {
   provider = "prisma-client"
-  output   = "../generated/prisma"
+  output   = "../generated/client"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+model AuthUser {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  username     String   @unique
+  passwordHash String
+  status       String   @default("ACTIVE")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model OutboxEvent {
+  id          String    @id @default(uuid())
+  topic       String
+  payload     Json
+  status      String    @default("PENDING") // PENDING|PUBLISHED|FAILED
+  createdAt   DateTime  @default(now())
+  publishedAt DateTime?
+  attempts    Int       @default(0)
+
+  @@index([status, createdAt])
 }
