@@ -1,0 +1,10 @@
+CREATE DATABASE shareai_auth;
+CREATE DATABASE shareai_user;
+CREATE DATABASE shareai_content;
+CREATE DATABASE shareai_engagement;
+CREATE DATABASE shareai_social;
+CREATE DATABASE shareai_feed;
+CREATE DATABASE shareai_messaging;
+CREATE DATABASE shareai_notification;
+CREATE DATABASE shareai_moderation;
+CREATE DATABASE shareai_payments;

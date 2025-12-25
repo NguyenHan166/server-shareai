@@ -1,0 +1,27 @@
+{
+    "name": "shareai",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "dev:gateway": "pnpm --filter @shareai/gateway start:dev",
+        "dev:auth": "pnpm --filter @shareai/auth start:dev",
+        "dev:user": "pnpm --filter @shareai/user start:dev",
+        "dev:content": "pnpm --filter @shareai/content start:dev",
+        "dev:engagement": "pnpm --filter @shareai/engagement start:dev",
+        "dev:social": "pnpm --filter @shareai/social start:dev",
+        "dev:feed": "pnpm --filter @shareai/feed start:dev",
+        "dev:messaging": "pnpm --filter @shareai/messaging start:dev",
+        "dev:notification": "pnpm --filter @shareai/notification start:dev",
+        "dev:moderation": "pnpm --filter @shareai/moderation start:dev",
+        "dev:payments": "pnpm --filter @shareai/payments start:dev",
+        "infra:up": "docker compose up -d",
+        "infra:down": "docker compose down -v",
+        "migrate:auth": "pnpm --filter @shareai/auth prisma migrate dev",
+        "migrate:user": "pnpm --filter @shareai/user prisma migrate dev"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "packageManager": "pnpm@10.26.2"
+}

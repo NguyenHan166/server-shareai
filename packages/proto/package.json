@@ -1,0 +1,8 @@
+{
+    "name": "@shareai/proto",
+    "version": "0.0.1",
+    "private": true,
+    "files": [
+        "**/*.proto"
+    ]
+}

@@ -1,0 +1,23 @@
+syntax = "proto3";
+package shareai.auth;
+
+service AuthService {
+  rpc Register (RegisterRequest) returns (AuthResponse);
+  rpc Login (LoginRequest) returns (AuthResponse);
+}
+
+message RegisterRequest {
+  string email = 1;
+  string username = 2;
+  string password = 3;
+}
+
+message LoginRequest {
+  string emailOrUsername = 1;
+  string password = 2;
+}
+
+message AuthResponse {
+  string accessToken = 1;
+  string userId = 2;
+}
