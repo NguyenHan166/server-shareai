@@ -5,8 +5,9 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/client"
+  provider     = "prisma-client"
+  output       = "../generated/client"
+  moduleFormat = "cjs"
 }
 
 datasource db {
@@ -24,13 +25,38 @@ model AuthUser {
 }
 
 model OutboxEvent {
-  id          String    @id @default(uuid())
-  topic       String
-  payload     Json
-  status      String    @default("PENDING") // PENDING|PUBLISHED|FAILED
+  id String @id @default(uuid())
+
+  // Kafka topic to publish to
+  topic String
+
+  // Kafka partition key (recommend: aggregateId like userId)
+  key String?
+
+  // Envelope / event payload (JSON)
+  payload Json
+
+  // Optional Kafka headers (JSON)
+  headers Json?
+
+  /**
+   * Status lifecycle:
+   * PENDING -> PROCESSING -> PUBLISHED
+   * PENDING/PROCESSING -> (retry) -> PENDING
+   * after max attempts -> FAILED (and publish dlq.<topic>)
+   */
+  status String @default("PENDING") // PENDING|PROCESSING|PUBLISHED|FAILED
+
+  // Retry control
+  attempts      Int      @default(0)
+  nextAttemptAt DateTime @default(now())
+
+  // Observability
+  lastError   String?
   createdAt   DateTime  @default(now())
   publishedAt DateTime?
-  attempts    Int       @default(0)
 
-  @@index([status, createdAt])
+  @@index([status, nextAttemptAt, createdAt])
+  @@index([topic, createdAt])
+  @@index([key])
 }

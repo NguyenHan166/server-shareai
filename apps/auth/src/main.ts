@@ -1,7 +1,16 @@
 import 'reflect-metadata';
+import { config } from 'dotenv';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+
+// Load .env before anything else
+config();
+
+console.log(
+  '🔑 JWT_SECRET loaded:',
+  process.env.JWT_SECRET ? '✓ Found' : '✗ Not found',
+);
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

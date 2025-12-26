@@ -1,5 +1,9 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
-import * as microservices from '@nestjs/microservices';
+import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
+import {
+  ClientsModule,
+  Transport,
+  type ClientGrpc,
+} from '@nestjs/microservices';
 import { join } from 'path';
 import { Observable } from 'rxjs';
 
@@ -20,7 +24,7 @@ export interface AuthServiceGrpc {
 export class AuthGrpcClient implements OnModuleInit {
   private svc!: AuthServiceGrpc;
 
-  constructor(private client: microservices.ClientGrpc) {}
+  constructor(@Inject('AUTH_GRPC') private client: ClientGrpc) {}
 
   onModuleInit() {
     this.svc = this.client.getService<AuthServiceGrpc>('AuthService');
@@ -31,10 +35,10 @@ export class AuthGrpcClient implements OnModuleInit {
   }
 
   static clientProvider() {
-    return microservices.ClientsModule.register([
+    return ClientsModule.register([
       {
         name: 'AUTH_GRPC',
-        transport: microservices.Transport.GRPC,
+        transport: Transport.GRPC,
         options: {
           url: process.env.AUTH_GRPC_URL ?? 'localhost:50051',
           package: 'shareai.auth',

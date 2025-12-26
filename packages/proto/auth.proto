@@ -1,6 +1,8 @@
 syntax = "proto3";
 package shareai.auth;
 
+import "common/error.proto";
+
 service AuthService {
   rpc Register (RegisterRequest) returns (AuthResponse);
   rpc Login (LoginRequest) returns (AuthResponse);

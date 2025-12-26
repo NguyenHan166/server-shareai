@@ -13,6 +13,7 @@ async function bootstrap() {
       client: {
         clientId: process.env.KAFKA_CLIENT_ID ?? 'shareai-user',
         brokers: (process.env.KAFKA_BROKERS ?? 'localhost:9092').split(','),
+        allowAutoTopicCreation: true,
       },
       consumer: {
         groupId: process.env.KAFKA_GROUP_ID ?? 'shareai-user',

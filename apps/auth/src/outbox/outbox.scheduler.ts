@@ -4,11 +4,18 @@ import { OutboxPublisher } from './outbox.publisher';
 
 @Injectable()
 export class OutboxScheduler {
+  private running = false;
+
   constructor(private outbox: OutboxPublisher) {}
 
-  // 1s flush (dev). Prod: worker riêng + backoff.
   @Interval(1000)
   async tick() {
-    await this.outbox.flushOnce(50);
+    if (this.running) return;
+    this.running = true;
+    try {
+      await this.outbox.flushOnce(50);
+    } finally {
+      this.running = false;
+    }
   }
 }
